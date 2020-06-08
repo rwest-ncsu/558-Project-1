@@ -1,0 +1,21 @@
+---
+title: "README"
+author: "Robert West"
+date: "6/8/2020"
+output: rmarkdown::github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(ggplot2)
+```
+
+
+This is a line from RStudio
+
+```{r}
+ggplot(data=iris, aes(x=Sepal.Width, y=Petal.Width))+
+  geom_point(aes(color = Species)) +
+  labs(title = "PLEASE WORK")
+```
+
