@@ -6,16 +6,88 @@ output: rmarkdown::github_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo=F)
+knitr::opts_chunk$set(warning=F)
+knitr::opts_chunk$set(message=F)
 library(ggplot2)
+library(jsonlite)
+library(tidyverse)
+library(knitr)
+library(httr)
 ```
 
+# Describe JSON data. What is it, where does it get used, and why is it a good way to store data? This should be detailed enough that someone that hasn’t seen JSON data would have a good idea what they are dealing with. You should link to references where applicable.
 
-This is a line from RStudio
+
+
+# Discuss the possible packages/functions that are available for reading JSON data into R. (There are three major packages for JSON data.) Choose one and explain why you’ve chosen it.
+
+
+# PLAYING AROUND WITH THE API
+
+You should have a function to return parsed data from the following calls:
+∗ /franchise (Returns id, firstSeasonId and lastSeasonId and name of every team in the history
+of the NHL)
+
+∗ /franchise-team-totals (Returns Total stats for every franchise (ex roadTies, roadWins, etc))
+
+∗ /site/api/franchise-season-records?cayenneExp=franchiseId=ID (Drill-down into season records for a specific franchise)
+· User should be able to specify the franchise
+
+∗ /franchise-goalie-records?cayenneExp=franchiseId=ID (Goalie records for the specified fran- chise)
+· User should be able to specify the franchise
+
+
+∗ /franchise-skater-records?cayenneExp=franchiseId=ID (Skater records, same interaction as goalie endpoint)
+· User should be able to specify the franchise
+```{r}
+base_url = "https://records.nhl.com/site/api"
+test_text = content(GET(url=paste0(base_url, "/franchise")), "text")
+test_list = jsonlite::fromJSON(test_text, flatten=T)
+
+str(test_list)
+test_list$data
+
+yay=test_list$data
+```
+
 
 ```{r}
-ggplot(data=iris, aes(x=Sepal.Width, y=Petal.Width))+
-  geom_point(aes(color = Species)) +
-  labs(title = "PLEASE WORK")
+test2_text = content(GET(url=paste0(base_url, "/franchise-team-totals")), "text")
+test2_list = jsonlite::fromJSON(test2_text, flatten=T)
+
+str(test2_list)
+test2_list$data
 ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
