@@ -18,47 +18,100 @@ library(httr)
 
 # Describe JSON data. What is it, where does it get used, and why is it a good way to store data? This should be detailed enough that someone that hasn’t seen JSON data would have a good idea what they are dealing with. You should link to references where applicable.
 
+*Java Script Object Notation* (or JSON) is a way to store data. 
+
+
+
+
 
 
 # Discuss the possible packages/functions that are available for reading JSON data into R. (There are three major packages for JSON data.) Choose one and explain why you’ve chosen it.
 
+The package that I chose to work with is the `jsonlite` package. I chose this because it offers the functionality to return a nested list as a data frame without parsing the data yourself. 
+
+
+
+
+
+
 
 # PLAYING AROUND WITH THE API
+```{r}
+base_url = "https://records.nhl.com/site/api"
+```
+
 
 You should have a function to return parsed data from the following calls:
 ∗ /franchise (Returns id, firstSeasonId and lastSeasonId and name of every team in the history
 of the NHL)
 
+```{r}
+get_franchises = function(){
+  full_url = paste0(base_url, "/franchise")
+  text = content(GET(url=full_url), "text") #Converts the JSON output from the API to a text file
+  list_output = jsonlite::fromJSON(text, flatten = T)
+  
+  return(list_output$data)
+}
+```
+
+
 ∗ /franchise-team-totals (Returns Total stats for every franchise (ex roadTies, roadWins, etc))
+```{r}
+get_franchise_totals = function(){
+  full_url = paste0(base_url, "/franchise-team-totals")
+  text = content(GET(url=full_url), "text")
+  list_output = jsonlite::fromJSON(text, flatten = T)
+  
+  return(list_output$data)
+}
+```
+
 
 ∗ /site/api/franchise-season-records?cayenneExp=franchiseId=ID (Drill-down into season records for a specific franchise)
 · User should be able to specify the franchise
 
+```{r}
+get_season_records = function(id){
+  full_url = paste0(base_url, "/franchise-season-records?cayenneExp=franchiseId=", id)
+  text = content(GET(full_url), "text")
+  list_output = jsonlite::fromJSON(text, flatten=T)
+  
+  return(list_output$data)
+}
+```
+
+
+
+
 ∗ /franchise-goalie-records?cayenneExp=franchiseId=ID (Goalie records for the specified fran- chise)
 · User should be able to specify the franchise
+
+```{r}
+get_goalie_records = function(id){
+  full_url = paste0(base_url, "/franchise-goalie-records?cayenneExp=franchiseId=", id)
+  text = content(GET(full_url), "text")
+  list_output = jsonlite::fromJSON(text, flatten=T)
+  
+  return(list_output$data)
+}
+```
+
 
 
 ∗ /franchise-skater-records?cayenneExp=franchiseId=ID (Skater records, same interaction as goalie endpoint)
 · User should be able to specify the franchise
-```{r}
-base_url = "https://records.nhl.com/site/api"
-test_text = content(GET(url=paste0(base_url, "/franchise")), "text")
-test_list = jsonlite::fromJSON(test_text, flatten=T)
-
-str(test_list)
-test_list$data
-
-yay=test_list$data
-```
-
 
 ```{r}
-test2_text = content(GET(url=paste0(base_url, "/franchise-team-totals")), "text")
-test2_list = jsonlite::fromJSON(test2_text, flatten=T)
-
-str(test2_list)
-test2_list$data
+get_skater_records = function(id){
+  full_url = paste0(base_url, "/franchise-skater-records?cayenneExp=franchiseId=", "id")
+  text = content(GET(full_url), "text")
+  list_output = jsonlite::fromJSON(text, flatten = T)
+  
+  return(list_output$data)
+}
 ```
+
 
 
 
