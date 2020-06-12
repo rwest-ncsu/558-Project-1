@@ -1,10 +1,11 @@
 ---
-title: "README"
+title: "Project 1"
 author: "Robert West"
 date: "6/8/2020"
-output:  
+output: 
   rmarkdown::github_document:
     toc: TRUE
+  
 ---
 
 ```{r setup, include=FALSE}
@@ -122,11 +123,21 @@ franchise_totals = get_franchise_totals()
 season_records = get_season_records(id)
 goalie_records = get_goalie_records(id)
 skater_records = get_skater_records(id)
+
+kable(franchises)
 ```
 
 
+```{r}
+ggplot(data=franchise_totals, aes(x=wins, y=losses))+
+  geom_point(aes(color=teamName))
+```
 
-
+Avg goals per game per team
+top scorers for each team
+top penalty-ers
+Assists
+goalie saves vs attempts
 
 
 
