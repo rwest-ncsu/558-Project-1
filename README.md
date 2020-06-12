@@ -10,10 +10,16 @@ is used primarily to send and receive data from internet applications.
 It is so widely used because its text structure makes it much easier to
 send files. The “issue” that this can bring with it is that you need to
 convert the text representation of data into an object that R (or any
-other language) knows how to work
-with.
+other language) knows how to work with. JSON structure is nested as
+shown below. ![](json-example.jpg)<!-- -->
 
-# Discuss the possible packages/functions that are available for reading JSON data into R. (There are three major packages for JSON data.) Choose one and explain why you’ve chosen it.
+This structure allows you to define characteristics of an object that
+are also allowed to have their own characteristics. While this is
+extremely flexible, it can be a little difficult to parse yourself.
+
+# Packages for JSON files in R
+
+Luckily, we don’t usually have to parse the data
 
 The package that I chose to work with is the `jsonlite` package. I chose
 this because it offers the functionality to return a nested list as a
@@ -107,7 +113,7 @@ kable(franchises)
 | 37 |      20002001 |           NA |               30 | Wild           | Minnesota     |
 | 38 |      20172018 |           NA |               54 | Golden Knights | Vegas         |
 
-![](README_files/figure-gfm/unnamed-chunk-8-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-9-1.png)<!-- -->![](README_files/figure-gfm/unnamed-chunk-9-2.png)<!-- -->![](README_files/figure-gfm/unnamed-chunk-9-3.png)<!-- -->![](README_files/figure-gfm/unnamed-chunk-9-4.png)<!-- -->
 
 Avg goals per game per team top scorers for each team top penalty-ers
 Assists goalie saves vs attempts

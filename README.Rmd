@@ -2,9 +2,9 @@
 title: "Project 1"
 author: "Robert West"
 date: "6/8/2020"
-output: 
-  rmarkdown::github_document:
-    toc: TRUE
+output:
+  github_document:
+    toc: true
   
 ---
 
@@ -19,16 +19,18 @@ library(knitr)
 library(httr)
 ```
 
-# Describe JSON data. What is it, where does it get used, and why is it a good way to store data? This should be detailed enough that someone that hasn’t seen JSON data would have a good idea what they are dealing with. You should link to references where applicable.
+# JSON Data
 
-*Java Script Object Notation* (or JSON) is a text-based data format that is used primarily to send and receive data from internet applications. It is so widely used because its text structure makes it much easier to send files. The "issue" that this can bring with it is that you need to convert the text representation of data into an object that R (or any other language) knows how to work with. 
+*Java Script Object Notation* (or JSON) is a text-based data format that is used primarily to send and receive data from internet applications. It is so widely used because its text structure makes it much easier to send files. The "issue" that this can bring with it is that you need to convert the text representation of data into an object that R (or any other language) knows how to work with. JSON structure is nested as shown below. 
+```{r}
+include_graphics(path="json-example.jpg")
+```
 
+This structure allows you to define characteristics of an object that are also allowed to have their own characteristics. While this is extremely flexible, it can be a little difficult to parse yourself. 
 
+# Packages for JSON files in R
 
-
-
-
-# Discuss the possible packages/functions that are available for reading JSON data into R. (There are three major packages for JSON data.) Choose one and explain why you’ve chosen it.
+Luckily, we don't usually have to parse the data 
 
 The package that I chose to work with is the `jsonlite` package. I chose this because it offers the functionality to return a nested list as a data frame without parsing the data yourself. 
 
@@ -131,6 +133,17 @@ kable(franchises)
 ```{r}
 ggplot(data=franchise_totals, aes(x=wins, y=losses))+
   geom_point(aes(color=teamName))
+
+franchise_totals$WLP = franchise_totals$wins / (franchise_totals$losses + franchise_totals$wins)
+
+ggplot(data = franchise_totals, aes(y=WLP, x=teamName))+
+  geom_boxplot(aes(color=teamName))
+
+ggplot(data=franchise_totals, aes(y=homeWins, x=roadWins))+
+  geom_point(aes(color=teamName))+
+  geom_abline(slope=1, intercept = 0)
+
+ggplot(data=goalie_records, aes())
 ```
 
 Avg goals per game per team
