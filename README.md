@@ -10,8 +10,7 @@ is used primarily to send and receive data from internet applications.
 It is so widely used because its text structure makes it much easier to
 send files. The “issue” that this can bring with it is that you need to
 convert the text representation of data into an object that R (or any
-other language) knows how to work
-with.
+other language) knows how to work with.
 
 # Discuss the possible packages/functions that are available for reading JSON data into R. (There are three major packages for JSON data.) Choose one and explain why you’ve chosen it.
 
@@ -27,13 +26,14 @@ utilize:
 
   - httr::GET() to access a given web address
   - httr::content() to turn the output into a text file
-  - jsonlite::fromJSON() to turn the text file into a data frame
+  - jsonlite::fromJSON() to turn the text file into a data frame(with
+    flatten=TRUE)
 
 To access more data from the API, I wrote 4 more functions
 extraordinarily similar to the `get_franchises()` function but with
-different URLs. Every API is different. To determine how to request the
-right information, you need to read the
-[documentation](https://gitlab.com/dword4/nhlapi/-/blob/master/records-api.md)
+different URLs. Every API is different, so to determine how to request
+the right information, you need to read the
+[documentation](https://gitlab.com/dword4/nhlapi/-/blob/master/records-api.md).
 
 ``` r
 base_url = "https://records.nhl.com/site/api"
@@ -41,10 +41,24 @@ base_url = "https://records.nhl.com/site/api"
 
 ``` r
 get_franchises = function(){
+  library(jsonlite)
   full_url = paste0(base_url, "/franchise")
   text = content(GET(url=full_url), "text") #Converts the JSON output from the API to a text file
-  list_output = jsonlite::fromJSON(text, flatten = T)
+  list_output = fromJSON(text, flatten = T)
   
   return(list_output$data)
 }
+```
+
+Now that we can communicate with the API and can load the data into a
+data frame, let’s explore\!
+
+``` r
+id=26 #Go Canes
+
+franchises = get_franchises()
+franchise_totals = get_franchise_totals()
+season_records = get_season_records(id)
+goalie_records = get_goalie_records(id)
+skater_records = get_skater_records(id)
 ```

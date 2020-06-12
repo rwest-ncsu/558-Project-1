@@ -2,7 +2,9 @@
 title: "README"
 author: "Robert West"
 date: "6/8/2020"
-output: rmarkdown::github_document
+output:  
+  rmarkdown::github_document:
+    toc: TRUE
 ---
 
 ```{r setup, include=FALSE}
@@ -38,7 +40,7 @@ To get a feel for handling JSON data, let's communicate with an API (Application
 
 * httr::GET() to access a given web address 
 * httr::content() to turn the output into a text file 
-* jsonlite::fromJSON() to turn the text file into a data frame 
+* jsonlite::fromJSON() to turn the text file into a data frame(with flatten=TRUE)
 
 To access more data from the API, I wrote 4 more functions extraordinarily similar to the `get_franchises()` function but with different URLs. Every API is different, so to determine how to request the right information, you need to read the [documentation](https://gitlab.com/dword4/nhlapi/-/blob/master/records-api.md). 
 ```{r, echo=T}
@@ -49,9 +51,10 @@ base_url = "https://records.nhl.com/site/api"
 
 ```{r, echo=T}
 get_franchises = function(){
+  library(jsonlite)
   full_url = paste0(base_url, "/franchise")
   text = content(GET(url=full_url), "text") #Converts the JSON output from the API to a text file
-  list_output = jsonlite::fromJSON(text, flatten = T)
+  list_output = fromJSON(text, flatten = T)
   
   return(list_output$data)
 }
@@ -61,9 +64,10 @@ get_franchises = function(){
 
 ```{r}
 get_franchise_totals = function(){
+  library(jsonlite)
   full_url = paste0(base_url, "/franchise-team-totals")
   text = content(GET(url=full_url), "text")
-  list_output = jsonlite::fromJSON(text, flatten = T)
+  list_output = fromJSON(text, flatten = T)
   
   return(list_output$data)
 }
@@ -73,9 +77,10 @@ get_franchise_totals = function(){
 
 ```{r}
 get_season_records = function(id){
+  library(jsonlite)
   full_url = paste0(base_url, "/franchise-season-records?cayenneExp=franchiseId=", id)
   text = content(GET(full_url), "text")
-  list_output = jsonlite::fromJSON(text, flatten=T)
+  list_output = fromJSON(text, flatten=T)
   
   return(list_output$data)
 }
@@ -85,9 +90,10 @@ get_season_records = function(id){
 
 ```{r}
 get_goalie_records = function(id){
+  library(jsonlite)
   full_url = paste0(base_url, "/franchise-goalie-records?cayenneExp=franchiseId=", id)
   text = content(GET(full_url), "text")
-  list_output = jsonlite::fromJSON(text, flatten=T)
+  list_output = fromJSON(text, flatten=T)
   
   return(list_output$data)
 }
@@ -97,15 +103,26 @@ get_goalie_records = function(id){
 
 ```{r}
 get_skater_records = function(id){
-  full_url = paste0(base_url, "/franchise-skater-records?cayenneExp=franchiseId=", "id")
+  library(jsonlite)
+  full_url = paste0(base_url, "/franchise-skater-records?cayenneExp=franchiseId=", id)
   text = content(GET(full_url), "text")
-  list_output = jsonlite::fromJSON(text, flatten = T)
+  list_output = fromJSON(text, flatten = T)
   
   return(list_output$data)
 }
 ```
 
 
+Now that we can communicate with the API and can load the data into a data frame, let's explore!
+```{r, echo=T}
+id=26 #Go Canes
+
+franchises = get_franchises()
+franchise_totals = get_franchise_totals()
+season_records = get_season_records(id)
+goalie_records = get_goalie_records(id)
+skater_records = get_skater_records(id)
+```
 
 
 
