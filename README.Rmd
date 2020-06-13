@@ -118,7 +118,7 @@ get_skater_records = function(id){
 
 Now that we can communicate with the API and can load the data into a data frame, let's explore!
 ```{r, echo=T}
-id=26 #Go Canes
+id=26 #Go 'Canes
 
 franchises = get_franchises()
 franchise_totals = get_franchise_totals()
@@ -129,28 +129,43 @@ skater_records = get_skater_records(id)
 kable(franchises)
 ```
 
+# Data Exploration
 
+First we examine the idea of a home field advantage. As shown below, it is clear that nearly every team has more home wins than they do road wins since seemingly all points lie above the line `y=x` This certainly doesn't prove that a home field advantage is real, but it might reinforce our belief in one. 
 ```{r}
-ggplot(data=franchise_totals, aes(x=wins, y=losses))+
-  geom_point(aes(color=teamName))
-
-franchise_totals$WLP = franchise_totals$wins / (franchise_totals$losses + franchise_totals$wins)
-
-ggplot(data = franchise_totals, aes(y=WLP, x=teamName))+
-  geom_boxplot(aes(color=teamName))
-
-ggplot(data=franchise_totals, aes(y=homeWins, x=roadWins))+
-  geom_point(aes(color=teamName))+
-  geom_abline(slope=1, intercept = 0)
-
-ggplot(data=goalie_records, aes())
+ggplot(data=franchise_totals %>% filter(gameTypeId==2), aes(y=homeWins, x=roadWins))+
+  geom_point(color="blue")+
+  geom_abline(slope=1, intercept = 0, color="red")+
+  labs(x="Away Wins", y="Home Wins", title="Scatter of Away vs Home Wins")
 ```
 
-Avg goals per game per team
-top scorers for each team
-top penalty-ers
-Assists
-goalie saves vs attempts
+
+
+```{r}
+skater_records$avgPointsPerGame = skater_records$points / skater_records$gamesPlayed
+
+ggplot(data=skater_records%>%filter(gameTypeId==2), aes(x=positionCode, y=avgPointsPerGame))+
+  geom_boxplot(aes(fill=positionCode))+
+  geom_jitter()+
+  labs(x="Position", y="Average Points Per Game", fill="Position", title = "Boxplot by Position for the Carolina Hurricanes")
+```
+
+
+```{r}
+table = skater_records %>%
+  group_by(positionCode)%>%
+  summarize(
+    count = n(),
+    mean = mean(rookiePoints, na.rm = T),
+    median = median(rookiePoints, na.rm = T),
+    sd = sd(rookiePoints, na.rm = T), 
+    max = max(rookiePoints, na.rm = T), 
+    min = min(rookiePoints, na.rm = T)
+  )
+kable(table, caption = "Numeric Summaries of Carlina Hurricanes Rookie Points by Position")
+```
+
+
 
 
 

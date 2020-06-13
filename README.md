@@ -3,7 +3,7 @@ Project 1
 Robert West
 6/8/2020
 
-# Describe JSON data. What is it, where does it get used, and why is it a good way to store data? This should be detailed enough that someone that hasn’t seen JSON data would have a good idea what they are dealing with. You should link to references where applicable.
+# JSON Data
 
 *Java Script Object Notation* (or JSON) is a text-based data format that
 is used primarily to send and receive data from internet applications.
@@ -61,7 +61,7 @@ Now that we can communicate with the API and can load the data into a
 data frame, let’s explore\!
 
 ``` r
-id=26 #Go Canes
+id=26 #Go 'Canes
 
 franchises = get_franchises()
 franchise_totals = get_franchise_totals()
@@ -113,7 +113,22 @@ kable(franchises)
 | 37 |      20002001 |           NA |               30 | Wild           | Minnesota     |
 | 38 |      20172018 |           NA |               54 | Golden Knights | Vegas         |
 
-![](README_files/figure-gfm/unnamed-chunk-9-1.png)<!-- -->![](README_files/figure-gfm/unnamed-chunk-9-2.png)<!-- -->![](README_files/figure-gfm/unnamed-chunk-9-3.png)<!-- -->![](README_files/figure-gfm/unnamed-chunk-9-4.png)<!-- -->
+# Data Exploration
 
-Avg goals per game per team top scorers for each team top penalty-ers
-Assists goalie saves vs attempts
+First we examine the idea of a home field advantage. As shown below, it
+is clear that nearly every team has more home wins than they do road
+wins since seemingly all points lie above the line `y=x` This certainly
+doesn’t prove that a home field advantage is real, but it might
+reinforce our belief in one.
+![](README_files/figure-gfm/unnamed-chunk-9-1.png)<!-- -->
+
+![](README_files/figure-gfm/unnamed-chunk-10-1.png)<!-- -->
+
+| positionCode | count |      mean | median |        sd | max | min |
+| :----------- | ----: | --------: | -----: | --------: | --: | --: |
+| C            |   111 | 12.843137 |      4 | 16.093940 |  68 |   0 |
+| D            |   164 |  7.095238 |      4 |  8.444724 |  35 |   0 |
+| L            |   107 | 12.549020 |      8 | 15.756032 |  72 |   0 |
+| R            |    96 | 11.406250 |      3 | 15.614012 |  59 |   0 |
+
+Numeric Summaries of Carlina Hurricanes Rookie Points by Position
