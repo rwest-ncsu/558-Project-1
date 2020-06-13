@@ -19,11 +19,20 @@ extremely flexible, it can be a little difficult to parse yourself.
 
 # Packages for JSON files in R
 
-Luckily, we don’t usually have to parse the data
+Luckily, we don’t usually have to parse the data manually. There are 3
+main packages in R that deal with JSON data:  
+\* `rjson`  
+\* `jsonlite`  
+\* `rjsonio`
+
+Most of these packages do similar things and boil down mostly to
+personal preference and the needs of your project
 
 The package that I chose to work with is the `jsonlite` package. I chose
 this because it offers the functionality to return a nested list as a
 data frame without parsing the data yourself.
+
+# NHL API
 
 To get a feel for handling JSON data, let’s communicate with an API
 (Application Programming Interface) for the NHL. The URL for accessing
@@ -58,7 +67,7 @@ get_franchises = function(){
 ```
 
 Now that we can communicate with the API and can load the data into a
-data frame, let’s explore\!
+data frame, let’s explore(particularly the Hurricanes)\!
 
 ``` r
 id=26 #Go 'Canes
@@ -115,20 +124,121 @@ kable(franchises)
 
 # Data Exploration
 
-First we examine the idea of a home field advantage. As shown below, it
-is clear that nearly every team has more home wins than they do road
-wins since seemingly all points lie above the line `y=x` This certainly
-doesn’t prove that a home field advantage is real, but it might
-reinforce our belief in one.
-![](README_files/figure-gfm/unnamed-chunk-9-1.png)<!-- -->
+## Table Summaries
 
-![](README_files/figure-gfm/unnamed-chunk-10-1.png)<!-- -->
+A basic count of Position for the Hurricanes by Activity
 
-| positionCode | count |      mean | median |        sd | max | min |
-| :----------- | ----: | --------: | -----: | --------: | --: | --: |
-| C            |   111 | 12.843137 |      4 | 16.093940 |  68 |   0 |
-| D            |   164 |  7.095238 |      4 |  8.444724 |  35 |   0 |
-| L            |   107 | 12.549020 |      8 | 15.756032 |  72 |   0 |
-| R            |    96 | 11.406250 |      3 | 15.614012 |  59 |   0 |
+``` r
+skater_records$activePlayer = as.factor(skater_records$activePlayer)
+levels(skater_records$activePlayer) = c("Inactive", "Active")
+
+kable(table(skater_records$activePlayer, skater_records$positionCode))
+```
+
+|          |  C |   D |  L |  R |
+| -------- | -: | --: | -: | -: |
+| Inactive | 87 | 146 | 95 | 90 |
+| Active   | 24 |  18 | 12 |  6 |
+
+Below is a numeric summary of Rookie points for the Carolina Hurricanes
+by position. This suggests that the Left Position slightly out-performs
+other offensive positions in terms of rookie points
+
+``` r
+table = skater_records %>%
+  group_by(positionCode)%>%
+  summarize(
+    count = n(),
+    min = min(rookiePoints, na.rm = T),
+    max = max(rookiePoints, na.rm = T), 
+    mean = mean(rookiePoints, na.rm = T),
+    median = median(rookiePoints, na.rm = T),
+    sd = sd(rookiePoints, na.rm = T)
+  )
+kable(table, caption = "Numeric Summaries of Carlina Hurricanes Rookie Points by Position")
+```
+
+| positionCode | count | min | max |      mean | median |        sd |
+| :----------- | ----: | --: | --: | --------: | -----: | --------: |
+| C            |   111 |   0 |  68 | 12.843137 |      4 | 16.093940 |
+| D            |   164 |   0 |  35 |  7.095238 |      4 |  8.444724 |
+| L            |   107 |   0 |  72 | 12.549020 |      8 | 15.756032 |
+| R            |    96 |   0 |  59 | 11.406250 |      3 | 15.614012 |
 
 Numeric Summaries of Carlina Hurricanes Rookie Points by Position
+
+## Graphical Summaries
+
+The idea of a home field advantage is heavily debated in sports. As
+shown below, it is clear that nearly every team has more home wins than
+they do road wins since seemingly all points lie above the line `y=x`
+This certainly doesn’t prove that a home field advantage is real, but it
+might reinforce our belief in
+one.
+
+``` r
+ggplot(data=franchise_totals %>% filter(gameTypeId==2), aes(y=homeWins, x=roadWins))+
+  geom_point(color="blue")+
+  geom_abline(slope=1, intercept = 0, color="red")+
+  labs(x="Away Wins", y="Home Wins", title="Scatter of Away vs Home Wins")
+```
+
+![](README_files/figure-gfm/unnamed-chunk-11-1.png)<!-- -->
+
+As shown below, it would seem that the Carolina Hurricanes tend to have
+slightly higher scoring players in Center and Left position than right
+or
+defense.
+
+``` r
+skater_records$avgPointsPerGame = skater_records$points / skater_records$gamesPlayed
+
+ggplot(data=skater_records%>%filter(gameTypeId==2), aes(x=positionCode, y=avgPointsPerGame))+
+  geom_boxplot(aes(fill=positionCode))+
+  geom_jitter()+
+  labs(x="Position", y="Average Points Per Game", fill="Position", title = "Boxplot by Position for the Carolina Hurricanes")
+```
+
+![](README_files/figure-gfm/unnamed-chunk-12-1.png)<!-- -->
+
+Below are the distributions of individual goals by Position and colored
+with an active player indicator for the Hurricanes. While this plot
+isn’t necessarily that informative, it does suggest that (as expected)
+Defensive players tend to score fewer points than others.
+
+``` r
+ggplot(data=skater_records, aes(x=goals, y=..density..))+
+  geom_histogram(aes(fill=activePlayer), position = "dodge")+
+  facet_wrap(~positionCode)+
+  labs(x="Goals Scored", y="Count", title = "Distribution of Goals Scored by Position for the Hurricanes", fill="Active Player")
+```
+
+![](README_files/figure-gfm/unnamed-chunk-13-1.png)<!-- -->
+
+A scatter plot of Seasons Played against Average Points Per Game colored
+by position suggests that there have been some very high-scoring Centers
+that have long careers for the Hurricanes. While the trendlines don’t
+add much predictive power where most of the data is, they do add the
+visual effect of seeing which position scores more points per game on
+average where the data is more dense.
+
+``` r
+ggplot(data = skater_records, aes(x=seasons, y=avgPointsPerGame))+
+  geom_point(aes(color=positionCode))+
+  geom_smooth(aes(color=positionCode), se=F)+
+  labs(y="Average Points Per Game", x="Number of Seasons Played", color="Position", title="Average Points Per Game Against Seasons for the Carolina Hurricanes")
+```
+
+![](README_files/figure-gfm/unnamed-chunk-14-1.png)<!-- -->
+
+A bar plot of the number of the total number of seasons played by a
+position suggests that Defensive players tend to play longer for the
+Hurricanes.
+
+``` r
+ggplot(data=skater_records, aes(x=positionCode, y=seasons))+
+  geom_bar(stat = "identity", aes(fill=positionCode))+
+  labs(x="Position", y="Seasons", fill="Position", title="Number of Seasons Played by Position for the Hurricanes")
+```
+
+![](README_files/figure-gfm/unnamed-chunk-15-1.png)<!-- -->
