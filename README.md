@@ -11,7 +11,7 @@ It is so widely used because its text structure makes it much easier to
 send files. The “issue” that this can bring with it is that you need to
 convert the text representation of data into an object that R (or any
 other language) knows how to work with. JSON structure is nested as
-shown below. ![](json-example.jpg)<!-- -->
+shown below. <img src="json-example.jpg" width="608" />
 
 This structure allows you to define characteristics of an object that
 are also allowed to have their own characteristics. While this is
@@ -81,46 +81,47 @@ skater_records = get_skater_records(id)
 kable(franchises)
 ```
 
-| id | firstSeasonId | lastSeasonId | mostRecentTeamId | teamCommonName | teamPlaceName |
-| -: | ------------: | -----------: | ---------------: | :------------- | :------------ |
-|  1 |      19171918 |           NA |                8 | Canadiens      | Montréal      |
-|  2 |      19171918 |     19171918 |               41 | Wanderers      | Montreal      |
-|  3 |      19171918 |     19341935 |               45 | Eagles         | St. Louis     |
-|  4 |      19191920 |     19241925 |               37 | Tigers         | Hamilton      |
-|  5 |      19171918 |           NA |               10 | Maple Leafs    | Toronto       |
-|  6 |      19241925 |           NA |                6 | Bruins         | Boston        |
-|  7 |      19241925 |     19371938 |               43 | Maroons        | Montreal      |
-|  8 |      19251926 |     19411942 |               51 | Americans      | Brooklyn      |
-|  9 |      19251926 |     19301931 |               39 | Quakers        | Philadelphia  |
-| 10 |      19261927 |           NA |                3 | Rangers        | New York      |
-| 11 |      19261927 |           NA |               16 | Blackhawks     | Chicago       |
-| 12 |      19261927 |           NA |               17 | Red Wings      | Detroit       |
-| 13 |      19671968 |     19771978 |               49 | Barons         | Cleveland     |
-| 14 |      19671968 |           NA |               26 | Kings          | Los Angeles   |
-| 15 |      19671968 |           NA |               25 | Stars          | Dallas        |
-| 16 |      19671968 |           NA |                4 | Flyers         | Philadelphia  |
-| 17 |      19671968 |           NA |                5 | Penguins       | Pittsburgh    |
-| 18 |      19671968 |           NA |               19 | Blues          | St. Louis     |
-| 19 |      19701971 |           NA |                7 | Sabres         | Buffalo       |
-| 20 |      19701971 |           NA |               23 | Canucks        | Vancouver     |
-| 21 |      19721973 |           NA |               20 | Flames         | Calgary       |
-| 22 |      19721973 |           NA |                2 | Islanders      | New York      |
-| 23 |      19741975 |           NA |                1 | Devils         | New Jersey    |
-| 24 |      19741975 |           NA |               15 | Capitals       | Washington    |
-| 25 |      19791980 |           NA |               22 | Oilers         | Edmonton      |
-| 26 |      19791980 |           NA |               12 | Hurricanes     | Carolina      |
-| 27 |      19791980 |           NA |               21 | Avalanche      | Colorado      |
-| 28 |      19791980 |           NA |               53 | Coyotes        | Arizona       |
-| 29 |      19911992 |           NA |               28 | Sharks         | San Jose      |
-| 30 |      19921993 |           NA |                9 | Senators       | Ottawa        |
-| 31 |      19921993 |           NA |               14 | Lightning      | Tampa Bay     |
-| 32 |      19931994 |           NA |               24 | Ducks          | Anaheim       |
-| 33 |      19931994 |           NA |               13 | Panthers       | Florida       |
-| 34 |      19981999 |           NA |               18 | Predators      | Nashville     |
-| 35 |      19992000 |           NA |               52 | Jets           | Winnipeg      |
-| 36 |      20002001 |           NA |               29 | Blue Jackets   | Columbus      |
-| 37 |      20002001 |           NA |               30 | Wild           | Minnesota     |
-| 38 |      20172018 |           NA |               54 | Golden Knights | Vegas         |
+| id | firstSeasonId | fullName              | lastSeasonId | mostRecentTeamId | teamAbbrev | teamCommonName | teamPlaceName |
+| -: | ------------: | :-------------------- | -----------: | ---------------: | :--------- | :------------- | :------------ |
+|  1 |      19171918 | Montréal Canadiens    |           NA |                8 | MTL        | Canadiens      | Montréal      |
+|  2 |      19171918 | Montreal Wanderers    |     19171918 |               41 | MWN        | Wanderers      | Montreal      |
+|  3 |      19171918 | St. Louis Eagles      |     19341935 |               45 | SLE        | Eagles         | St. Louis     |
+|  4 |      19191920 | Hamilton Tigers       |     19241925 |               37 | HAM        | Tigers         | Hamilton      |
+|  5 |      19171918 | Toronto Maple Leafs   |           NA |               10 | TOR        | Maple Leafs    | Toronto       |
+|  6 |      19241925 | Boston Bruins         |           NA |                6 | BOS        | Bruins         | Boston        |
+|  7 |      19241925 | Montreal Maroons      |     19371938 |               43 | MMR        | Maroons        | Montreal      |
+|  8 |      19251926 | Brooklyn Americans    |     19411942 |               51 | BRK        | Americans      | Brooklyn      |
+|  9 |      19251926 | Philadelphia Quakers  |     19301931 |               39 | QUA        | Quakers        | Philadelphia  |
+| 10 |      19261927 | New York Rangers      |           NA |                3 | NYR        | Rangers        | New York      |
+| 11 |      19261927 | Chicago Blackhawks    |           NA |               16 | CHI        | Blackhawks     | Chicago       |
+| 12 |      19261927 | Detroit Red Wings     |           NA |               17 | DET        | Red Wings      | Detroit       |
+| 13 |      19671968 | Cleveland Barons      |     19771978 |               49 | CLE        | Barons         | Cleveland     |
+| 14 |      19671968 | Los Angeles Kings     |           NA |               26 | LAK        | Kings          | Los Angeles   |
+| 15 |      19671968 | Dallas Stars          |           NA |               25 | DAL        | Stars          | Dallas        |
+| 16 |      19671968 | Philadelphia Flyers   |           NA |                4 | PHI        | Flyers         | Philadelphia  |
+| 17 |      19671968 | Pittsburgh Penguins   |           NA |                5 | PIT        | Penguins       | Pittsburgh    |
+| 18 |      19671968 | St. Louis Blues       |           NA |               19 | STL        | Blues          | St. Louis     |
+| 19 |      19701971 | Buffalo Sabres        |           NA |                7 | BUF        | Sabres         | Buffalo       |
+| 20 |      19701971 | Vancouver Canucks     |           NA |               23 | VAN        | Canucks        | Vancouver     |
+| 21 |      19721973 | Calgary Flames        |           NA |               20 | CGY        | Flames         | Calgary       |
+| 22 |      19721973 | New York Islanders    |           NA |                2 | NYI        | Islanders      | New York      |
+| 23 |      19741975 | New Jersey Devils     |           NA |                1 | NJD        | Devils         | New Jersey    |
+| 24 |      19741975 | Washington Capitals   |           NA |               15 | WSH        | Capitals       | Washington    |
+| 25 |      19791980 | Edmonton Oilers       |           NA |               22 | EDM        | Oilers         | Edmonton      |
+| 26 |      19791980 | Carolina Hurricanes   |           NA |               12 | CAR        | Hurricanes     | Carolina      |
+| 27 |      19791980 | Colorado Avalanche    |           NA |               21 | COL        | Avalanche      | Colorado      |
+| 28 |      19791980 | Arizona Coyotes       |           NA |               53 | ARI        | Coyotes        | Arizona       |
+| 29 |      19911992 | San Jose Sharks       |           NA |               28 | SJS        | Sharks         | San Jose      |
+| 30 |      19921993 | Ottawa Senators       |           NA |                9 | OTT        | Senators       | Ottawa        |
+| 31 |      19921993 | Tampa Bay Lightning   |           NA |               14 | TBL        | Lightning      | Tampa Bay     |
+| 32 |      19931994 | Anaheim Ducks         |           NA |               24 | ANA        | Ducks          | Anaheim       |
+| 33 |      19931994 | Florida Panthers      |           NA |               13 | FLA        | Panthers       | Florida       |
+| 34 |      19981999 | Nashville Predators   |           NA |               18 | NSH        | Predators      | Nashville     |
+| 35 |      19992000 | Winnipeg Jets         |           NA |               52 | WPG        | Jets           | Winnipeg      |
+| 36 |      20002001 | Columbus Blue Jackets |           NA |               29 | CBJ        | Blue Jackets   | Columbus      |
+| 37 |      20002001 | Minnesota Wild        |           NA |               30 | MIN        | Wild           | Minnesota     |
+| 38 |      20172018 | Vegas Golden Knights  |           NA |               54 | VGK        | Golden Knights | Vegas         |
+| 39 |      20212022 | Seattle Kraken        |           NA |               55 | SEA        | Kraken         | Seattle       |
 
 # Data Exploration
 
@@ -136,9 +137,9 @@ kable(table(skater_records$activePlayer, skater_records$positionCode))
 ```
 
 |          |  C |   D |  L |  R |
-| -------- | -: | --: | -: | -: |
-| Inactive | 87 | 146 | 95 | 90 |
-| Active   | 24 |  18 | 12 |  6 |
+| :------- | -: | --: | -: | -: |
+| Inactive | 89 | 148 | 97 | 92 |
+| Active   | 24 |  19 | 12 |  6 |
 
 Below is a numeric summary of Rookie points for the Carolina Hurricanes
 by position. This suggests that the Left Position slightly out-performs
@@ -160,10 +161,10 @@ kable(table, caption = "Numeric Summaries of Carlina Hurricanes Rookie Points by
 
 | positionCode | count | min | max |      mean | median |        sd |
 | :----------- | ----: | --: | --: | --------: | -----: | --------: |
-| C            |   111 |   0 |  68 | 12.843137 |      4 | 16.093940 |
-| D            |   164 |   0 |  35 |  7.095238 |      4 |  8.444724 |
-| L            |   107 |   0 |  72 | 12.549020 |      8 | 15.756032 |
-| R            |    96 |   0 |  59 | 11.406250 |      3 | 15.614012 |
+| C            |   113 |   0 |  68 | 12.846154 |    4.5 | 15.910762 |
+| D            |   167 |   0 |  35 |  7.171875 |    4.0 |  8.399839 |
+| L            |   109 |   0 |  72 | 12.549020 |    8.0 | 15.756032 |
+| R            |    98 |   0 |  59 | 11.060606 |    3.0 | 15.495845 |
 
 Numeric Summaries of Carlina Hurricanes Rookie Points by Position
 
